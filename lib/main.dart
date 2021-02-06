@@ -1,4 +1,4 @@
-import 'package:cookatoo/components/bottom_drawer/task_categories.dart';
+import 'package:cookatoo/modules/task_list/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,18 +8,6 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Cookatoo'),
-        ),
-        body: Column(
-          children: [
-            Text('Hello Cooks'),
-            TaskCategories(),
-          ],
-        ),
-      ),
-    );
+    return MaterialApp(home: TasksScreen());
   }
 }
