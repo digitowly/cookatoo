@@ -17,11 +17,12 @@ class TaskCreator extends StatelessWidget {
       ),
       child: ListView(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('title'),
-            ],
+          Container(
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Title',
+              ),
+            ),
           ),
           SizedBox(
             height: 30,

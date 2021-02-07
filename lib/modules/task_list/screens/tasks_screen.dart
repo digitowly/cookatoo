@@ -8,7 +8,9 @@ class TasksScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
-        children: [Text('Tasks')],
+        children: [
+          Text('Tasks'),
+        ],
       ),
       floatingActionButton: TaskCreatorButton(),
     );

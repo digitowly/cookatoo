@@ -2,23 +2,23 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-enum SelectionItemAction { UPDATE }
+enum SelectionItemAction { UPDATE, ADD, SUBSTRACT }
 
 class EventType {
   final String type;
   final SelectionItemAction action;
 
-  EventType({@required this.type, @required this.action});
+  EventType({this.type, @required this.action});
 }
 
 class SelectionItemBloc {
-  String _ingredientName;
+  Map _ingredientData = {"type": 'placeholder', "amount": 0};
 
   // State
-  final _stateController = StreamController<String>();
+  final _stateController = StreamController<Map>();
 
-  StreamSink<String> get stateSink => _stateController.sink;
-  Stream<String> get stateSteam => _stateController.stream;
+  StreamSink<Map> get stateSink => _stateController.sink;
+  Stream<Map> get stateSteam => _stateController.stream;
 
   // Events
   final _eventController = StreamController<EventType>();
@@ -30,11 +30,20 @@ class SelectionItemBloc {
     eventSteam.listen(
       (event) {
         if (event.action == SelectionItemAction.UPDATE) {
-          _ingredientName = event.type;
+          _ingredientData["type"] = event.type;
+        } else if (event.action == SelectionItemAction.ADD) {
+          _ingredientData["amount"]++;
+        } else if (event.action == SelectionItemAction.SUBSTRACT) {
+          _ingredientData["amount"]--;
         }
 
-        stateSink.add(_ingredientName);
+        stateSink.add(_ingredientData);
       },
     );
+  }
+
+  void dissolve() {
+    _stateController.close();
+    _eventController.close();
   }
 }
