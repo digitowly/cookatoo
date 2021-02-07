@@ -32,7 +32,6 @@ class TaskCreator extends StatelessWidget {
               StreamBuilder(
                 stream: _ingredientSelectionsBloc.stateStream,
                 builder: (context, snapshot) {
-                  print(snapshot.data);
                   if (snapshot.hasData) {
                     return Column(
                       children: [...snapshot.data],

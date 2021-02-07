@@ -12,46 +12,73 @@ class IngredientSelection extends StatelessWidget {
         stream: _selectionItemBloc.stateSteam,
         builder: (context, snapshot) {
           Map content = snapshot.data;
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return Column(
             children: [
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FlatButton(
-                    child: Text(
-                        '${snapshot.hasData ? content['type'] : "no data"}'),
-                    onPressed: () => showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return IngredientFinder(
-                          updateSelection: (String type) {
-                            _selectionItemBloc.eventSink.add(
-                              EventType(
-                                  action: SelectionItemAction.UPDATE,
-                                  type: type),
+                  Column(
+                    children: [
+                      FlatButton(
+                        child: Text(
+                            '${snapshot.hasData ? content['type'] : "no data"}'),
+                        onPressed: () => showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return IngredientFinder(
+                              updateSelection: (String type) {
+                                _selectionItemBloc.eventSink.add(
+                                  EventType(
+                                      action: SelectionItemAction.UPDATE,
+                                      type: type),
+                                );
+                                Navigator.pop(context);
+                              },
                             );
-                            Navigator.pop(context);
                           },
-                        );
-                      },
+                        ),
+                      )
+                    ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(0),
+                    width: 210,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
                     ),
-                  )
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        FlatButton(
+                          child: Icon(
+                            Icons.chevron_left,
+                            color: Colors.grey.shade400,
+                          ),
+                          onPressed: () => _selectionItemBloc.eventSink.add(
+                              EventType(action: SelectionItemAction.SUBSTRACT)),
+                        ),
+                        Text(
+                          '${snapshot.hasData ? content['amount'] : "0"}',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        FlatButton(
+                          child: Icon(
+                            Icons.chevron_right,
+                            color: Colors.grey.shade400,
+                          ),
+                          onPressed: () => _selectionItemBloc.eventSink
+                              .add(EventType(action: SelectionItemAction.ADD)),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-              Row(
-                children: [
-                  FlatButton(
-                    child: Text('+'),
-                    onPressed: () => _selectionItemBloc.eventSink
-                        .add(EventType(action: SelectionItemAction.ADD)),
-                  ),
-                  Text('${snapshot.hasData ? content['amount'] : "0"}'),
-                  FlatButton(
-                    child: Text('-'),
-                    onPressed: () => _selectionItemBloc.eventSink
-                        .add(EventType(action: SelectionItemAction.SUBSTRACT)),
-                  ),
-                ],
+              SizedBox(
+                height: 20,
               ),
             ],
           );
