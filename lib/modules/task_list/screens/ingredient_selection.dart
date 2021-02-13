@@ -11,88 +11,95 @@ class IngredientSelection extends StatelessWidget {
   final Key key;
 
   IngredientSelection(
-      {@required this.delete, @required this.id, @required this.key});
+      {@required this.delete, @required this.id, @required this.key}) {}
 
   @override
   Widget build(BuildContext context) {
+    void showIngredientsList() => showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return IngredientFinder(
+              updateSelection: (String type) {
+                _selectionItemBloc.eventSink.add(
+                  EventType(action: SelectionItemAction.UPDATE, type: type),
+                );
+                Navigator.pop(context);
+              },
+            );
+          },
+        );
+
+    // on widget tree load
+    WidgetsBinding.instance.addPostFrameCallback((_) => showIngredientsList());
+
     return StreamBuilder<Object>(
         key: key,
         stream: _selectionItemBloc.stateSteam,
         builder: (context, snapshot) {
           Map content = snapshot.data;
-          return Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      FlatButton(
-                        child: Text(
-                            '${snapshot.hasData ? content['type'] : "no data"}'),
-                        onPressed: () => showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return IngredientFinder(
-                              updateSelection: (String type) {
-                                _selectionItemBloc.eventSink.add(
-                                  EventType(
-                                      action: SelectionItemAction.UPDATE,
-                                      type: type),
-                                );
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(0),
-                    width: 210,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return Dismissible(
+            key: key,
+            onDismissed: (direction) => delete(id),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
                       children: [
                         FlatButton(
-                          child: Icon(
-                            Icons.chevron_left,
-                            color: Colors.grey.shade400,
-                          ),
-                          onPressed: () => _selectionItemBloc.eventSink.add(
-                              EventType(action: SelectionItemAction.SUBSTRACT)),
-                        ),
-                        Text(
-                          '${snapshot.hasData ? content['amount'] : "0"}',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        // FlatButton(
-                        //   child: Icon(
-                        //     Icons.chevron_right,
-                        //     color: Colors.grey.shade400,
-                        //   ),
-                        //   onPressed: () => _selectionItemBloc.eventSink
-                        //       .add(EventType(action: SelectionItemAction.ADD)),
-                        // ),
-                        FlatButton(
-                          child: Text('x'),
-                          onPressed: () => delete(id),
-                        )
+                            child: Text(
+                                '${snapshot.hasData ? content['type'] : "no data"}'),
+                            onPressed: () => showIngredientsList())
                       ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
+                    Container(
+                      padding: EdgeInsets.all(0),
+                      width: 210,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          FlatButton(
+                            child: Icon(
+                              Icons.chevron_left,
+                              color: Colors.grey.shade400,
+                            ),
+                            onPressed: () => _selectionItemBloc.eventSink.add(
+                                EventType(
+                                    action: SelectionItemAction.SUBSTRACT)),
+                          ),
+                          Text(
+                            '${snapshot.hasData ? content['amount'] : "0"}',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          FlatButton(
+                            child: Icon(
+                              Icons.chevron_right,
+                              color: Colors.grey.shade400,
+                            ),
+                            onPressed: () => _selectionItemBloc.eventSink.add(
+                                EventType(action: SelectionItemAction.ADD)),
+                          ),
+                          // FlatButton(
+                          //   child: Text('x'),
+                          //   onPressed: () => delete(id),
+                          // )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
           );
         });
   }
