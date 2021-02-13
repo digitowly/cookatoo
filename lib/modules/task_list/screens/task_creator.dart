@@ -46,7 +46,7 @@ class TaskCreator extends StatelessWidget {
           FlatButton(
             child: Text('+'),
             onPressed: () => _ingredientSelectionsBloc.eventSink
-                .add(SelectionsListAction.ADD),
+                .add(EventType(action: SelectionsListAction.ADD)),
           )
         ],
       ),

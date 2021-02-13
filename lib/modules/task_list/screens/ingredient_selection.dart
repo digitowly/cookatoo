@@ -6,9 +6,17 @@ import 'package:flutter/widgets.dart';
 class IngredientSelection extends StatelessWidget {
   final _selectionItemBloc = SelectionItemBloc();
 
+  final Function delete;
+  final int id;
+  final Key key;
+
+  IngredientSelection(
+      {@required this.delete, @required this.id, @required this.key});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Object>(
+        key: key,
         stream: _selectionItemBloc.stateSteam,
         builder: (context, snapshot) {
           Map content = snapshot.data;
@@ -64,14 +72,18 @@ class IngredientSelection extends StatelessWidget {
                           '${snapshot.hasData ? content['amount'] : "0"}',
                           style: TextStyle(fontSize: 18),
                         ),
+                        // FlatButton(
+                        //   child: Icon(
+                        //     Icons.chevron_right,
+                        //     color: Colors.grey.shade400,
+                        //   ),
+                        //   onPressed: () => _selectionItemBloc.eventSink
+                        //       .add(EventType(action: SelectionItemAction.ADD)),
+                        // ),
                         FlatButton(
-                          child: Icon(
-                            Icons.chevron_right,
-                            color: Colors.grey.shade400,
-                          ),
-                          onPressed: () => _selectionItemBloc.eventSink
-                              .add(EventType(action: SelectionItemAction.ADD)),
-                        ),
+                          child: Text('x'),
+                          onPressed: () => delete(id),
+                        )
                       ],
                     ),
                   ),

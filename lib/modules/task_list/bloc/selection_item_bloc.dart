@@ -15,13 +15,13 @@ class SelectionItemBloc {
   Map _ingredientData = {"type": 'placeholder', "amount": 0};
 
   // State
-  final _stateController = StreamController<Map>();
+  final _stateController = StreamController<Map>.broadcast();
 
   StreamSink<Map> get stateSink => _stateController.sink;
   Stream<Map> get stateSteam => _stateController.stream;
 
   // Events
-  final _eventController = StreamController<EventType>();
+  final _eventController = StreamController<EventType>.broadcast();
 
   StreamSink<EventType> get eventSink => _eventController.sink;
   Stream<EventType> get eventSteam => _eventController.stream;
