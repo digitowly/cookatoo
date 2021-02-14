@@ -12,7 +12,7 @@ class EventType {
 }
 
 class SelectionItemBloc {
-  Map _ingredientData = {"type": 'placeholder', "amount": 0};
+  Map _ingredientData = {"type": 'placeholder', "amount": 1};
 
   // State
   final _stateController = StreamController<Map>.broadcast();

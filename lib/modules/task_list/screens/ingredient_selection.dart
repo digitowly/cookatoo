@@ -16,6 +16,7 @@ class IngredientSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void showIngredientsList() => showModalBottomSheet(
+          isDismissible: false,
           context: context,
           builder: (context) {
             return IngredientFinder(
@@ -70,12 +71,13 @@ class IngredientSelection extends StatelessWidget {
                               Icons.chevron_left,
                               color: Colors.grey.shade400,
                             ),
-                            onPressed: () => _selectionItemBloc.eventSink.add(
-                                EventType(
-                                    action: SelectionItemAction.SUBSTRACT)),
+                            onPressed: () => (content['amount'] > 1)
+                                ? _selectionItemBloc.eventSink.add(EventType(
+                                    action: SelectionItemAction.SUBSTRACT))
+                                : '',
                           ),
                           Text(
-                            '${snapshot.hasData ? content['amount'] : "0"}',
+                            '${snapshot.hasData ? content['amount'] : 1}',
                             style: TextStyle(fontSize: 18),
                           ),
                           FlatButton(
@@ -86,10 +88,6 @@ class IngredientSelection extends StatelessWidget {
                             onPressed: () => _selectionItemBloc.eventSink.add(
                                 EventType(action: SelectionItemAction.ADD)),
                           ),
-                          // FlatButton(
-                          //   child: Text('x'),
-                          //   onPressed: () => delete(id),
-                          // )
                         ],
                       ),
                     ),

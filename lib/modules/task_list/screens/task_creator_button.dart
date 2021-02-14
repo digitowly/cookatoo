@@ -11,6 +11,7 @@ class TaskCreatorButton extends StatelessWidget {
           child: Text('show bottom modal'),
           onPressed: () {
             showModalBottomSheet(
+              isDismissible: false,
               backgroundColor: Colors.transparent,
               context: context,
               builder: (BuildContext context) {
