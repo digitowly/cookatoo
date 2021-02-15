@@ -11,7 +11,11 @@ class IngredientSelection extends StatelessWidget {
   final Key key;
 
   IngredientSelection(
-      {@required this.delete, @required this.id, @required this.key}) {}
+      {@required this.delete, @required this.id, @required this.key});
+
+  void dissolve() {
+    _selectionItemBloc.dissolve();
+  }
 
   @override
   Widget build(BuildContext context) {
