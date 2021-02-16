@@ -1,5 +1,6 @@
 import 'package:cookatoo/modules/ingredient_finder/screens/ingredient_finder.dart';
 import 'package:cookatoo/modules/task_list/bloc/selection_item_bloc.dart';
+import 'package:cookatoo/widgets/stateful_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -34,15 +35,14 @@ class IngredientSelection extends StatelessWidget {
           },
         );
 
-    // on widget tree load
-    WidgetsBinding.instance.addPostFrameCallback((_) => showIngredientsList());
-
     return StreamBuilder<Object>(
-        key: key,
-        stream: _selectionItemBloc.stateSteam,
-        builder: (context, snapshot) {
-          Map content = snapshot.data;
-          return Dismissible(
+      key: key,
+      stream: _selectionItemBloc.stateSteam,
+      builder: (context, snapshot) {
+        Map content = snapshot.data;
+        return StatefulWrapper(
+          onInit: () => showIngredientsList(),
+          child: Dismissible(
             key: key,
             onDismissed: (direction) => delete(id),
             child: Column(
@@ -60,7 +60,8 @@ class IngredientSelection extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(0),
-                      width: 210,
+                      width: 200,
+                      height: 50,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
                         borderRadius: BorderRadius.all(
@@ -102,7 +103,9 @@ class IngredientSelection extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
