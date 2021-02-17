@@ -1,16 +1,19 @@
 import 'package:cookatoo/data/ingredients.data.dart';
+import 'package:cookatoo/modules/ingredient_finder/screens/ingredient_preview.dart';
 import 'package:flutter/material.dart';
 
 class IngredientFinder extends StatelessWidget {
-  final updateSelection;
+  final Function updateSelection;
 
   IngredientFinder({this.updateSelection});
 
   Iterable<FlatButton> getIngredientList() {
     return ingredients.map(
       (ingredient) => FlatButton(
-        child: Text(ingredient.name),
-        onPressed: () => updateSelection(ingredient.name),
+        child: IngredientPreview(
+          ingredient: ingredient,
+        ),
+        onPressed: () => updateSelection(ingredient),
       ),
     );
   }

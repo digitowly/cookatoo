@@ -1,18 +1,23 @@
 import 'dart:async';
 
+import 'package:cookatoo/models/ingredient.model.dart';
 import 'package:flutter/material.dart';
 
 enum SelectionItemAction { UPDATE, ADD, SUBSTRACT }
 
 class EventType {
-  final String type;
+  final Ingredient type;
   final SelectionItemAction action;
 
   EventType({this.type, @required this.action});
 }
 
 class SelectionItemBloc {
-  Map _ingredientData = {"type": 'placeholder', "amount": 1};
+  Map _ingredientData = {
+    "type":
+        new Ingredient(imgRef: 'tomatoes', name: 'placeholder', type: 'none'),
+    "amount": 1
+  };
 
   // State
   final _stateController = StreamController<Map>.broadcast();

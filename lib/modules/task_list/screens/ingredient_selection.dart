@@ -1,4 +1,6 @@
+import 'package:cookatoo/models/ingredient.model.dart';
 import 'package:cookatoo/modules/ingredient_finder/screens/ingredient_finder.dart';
+import 'package:cookatoo/modules/ingredient_finder/screens/ingredient_preview.dart';
 import 'package:cookatoo/modules/task_list/bloc/selection_item_bloc.dart';
 import 'package:cookatoo/widgets/stateful_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +28,10 @@ class IngredientSelection extends StatelessWidget {
           backgroundColor: Colors.white,
           builder: (context) {
             return IngredientFinder(
-              updateSelection: (String type) {
+              updateSelection: (Ingredient ingredient) {
                 _selectionItemBloc.eventSink.add(
-                  EventType(action: SelectionItemAction.UPDATE, type: type),
+                  EventType(
+                      action: SelectionItemAction.UPDATE, type: ingredient),
                 );
                 Navigator.pop(context);
               },
@@ -39,7 +42,7 @@ class IngredientSelection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(0),
       margin: EdgeInsets.only(bottom: 10),
-      height: 60,
+      height: 90,
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.all(
@@ -65,8 +68,15 @@ class IngredientSelection extends StatelessWidget {
                       Column(
                         children: [
                           FlatButton(
-                              child: Text(
-                                  '${snapshot.hasData ? content['type'] : "no data"}'),
+                              child: IngredientPreview(
+                                ingredient: snapshot.hasData
+                                    ? content['type']
+                                    : new Ingredient(
+                                        imgRef: 'tomatoes',
+                                        name: 'placeholder',
+                                        type: 'none'),
+                              ),
+                              // '${snapshot.hasData ? content['type'] : "no data"}'),
                               onPressed: () => showIngredientsList())
                         ],
                       ),
