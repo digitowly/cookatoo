@@ -23,6 +23,7 @@ class IngredientSelection extends StatelessWidget {
     void showIngredientsList() => showModalBottomSheet(
           isDismissible: false,
           context: context,
+          backgroundColor: Colors.white,
           builder: (context) {
             return IngredientFinder(
               updateSelection: (String type) {
@@ -35,77 +36,78 @@ class IngredientSelection extends StatelessWidget {
           },
         );
 
-    return StreamBuilder<Object>(
-      key: key,
-      stream: _selectionItemBloc.stateSteam,
-      builder: (context, snapshot) {
-        Map content = snapshot.data;
-        return StatefulWrapper(
-          onInit: () => showIngredientsList(),
-          child: Dismissible(
-            key: key,
-            onDismissed: (direction) => delete(id),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        FlatButton(
-                            child: Text(
-                                '${snapshot.hasData ? content['type'] : "no data"}'),
-                            onPressed: () => showIngredientsList())
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(0),
-                      width: 200,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      padding: EdgeInsets.all(0),
+      margin: EdgeInsets.only(bottom: 10),
+      height: 60,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
+      child: StreamBuilder<Object>(
+        key: key,
+        stream: _selectionItemBloc.stateSteam,
+        builder: (context, snapshot) {
+          Map content = snapshot.data;
+          return StatefulWrapper(
+            onInit: () => showIngredientsList(),
+            child: Dismissible(
+              key: key,
+              onDismissed: (direction) => delete(id),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
                         children: [
                           FlatButton(
-                            child: Icon(
-                              Icons.chevron_left,
-                              color: Colors.grey.shade400,
-                            ),
-                            onPressed: () => (content['amount'] > 1)
-                                ? _selectionItemBloc.eventSink.add(EventType(
-                                    action: SelectionItemAction.SUBSTRACT))
-                                : '',
-                          ),
-                          Text(
-                            '${snapshot.hasData ? content['amount'] : 1}',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          FlatButton(
-                            child: Icon(
-                              Icons.chevron_right,
-                              color: Colors.grey.shade400,
-                            ),
-                            onPressed: () => _selectionItemBloc.eventSink.add(
-                                EventType(action: SelectionItemAction.ADD)),
-                          ),
+                              child: Text(
+                                  '${snapshot.hasData ? content['type'] : "no data"}'),
+                              onPressed: () => showIngredientsList())
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
+                      Container(
+                        width: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            FlatButton(
+                              child: Icon(
+                                Icons.chevron_left,
+                                color: Colors.grey.shade400,
+                              ),
+                              onPressed: () => (content['amount'] > 1)
+                                  ? _selectionItemBloc.eventSink.add(EventType(
+                                      action: SelectionItemAction.SUBSTRACT))
+                                  : '',
+                            ),
+                            Text(
+                              '${snapshot.hasData ? content['amount'] : 1}',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            FlatButton(
+                              child: Icon(
+                                Icons.chevron_right,
+                                color: Colors.grey.shade400,
+                              ),
+                              onPressed: () => _selectionItemBloc.eventSink.add(
+                                  EventType(action: SelectionItemAction.ADD)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

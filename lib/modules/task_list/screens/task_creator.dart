@@ -18,7 +18,7 @@ class TaskCreator extends StatelessWidget {
           bottom: const Radius.circular(0),
         ),
       ),
-      child: ListView(
+      child: Column(
         children: [
           Container(
             child: TextField(
@@ -31,21 +31,37 @@ class TaskCreator extends StatelessWidget {
             height: 30,
           ),
           Container(
-              height: 250,
-              child: StreamBuilder(
-                stream: _ingredientSelectionsBloc.stateStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    listData = snapshot.data;
-                    return ReorderableListView(
-                      onReorder: (oldIndex, newIndex) => {print('reorder')},
+            height: 500,
+            child: StreamBuilder(
+              stream: _ingredientSelectionsBloc.stateStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  listData = snapshot.data;
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      canvasColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
+                    child: ReorderableListView(
+                      onReorder: (oldIndex, newIndex) =>
+                          _ingredientSelectionsBloc.eventSink.add(
+                        EventType(
+                          action: SelectionsListAction.REORDER,
+                          reorder: Reorder(
+                            oldIndex: oldIndex,
+                            newIndex: newIndex,
+                          ),
+                        ),
+                      ),
                       children: [...listData],
-                    );
-                  } else {
-                    return Text('no data');
-                  }
-                },
-              )),
+                    ),
+                  );
+                } else {
+                  return Text('no data');
+                }
+              },
+            ),
+          ),
           FlatButton(
             child: Text('+'),
             onPressed: () => _ingredientSelectionsBloc.eventSink

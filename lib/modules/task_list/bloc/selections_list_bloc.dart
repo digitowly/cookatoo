@@ -4,12 +4,19 @@ import 'dart:math';
 import 'package:cookatoo/modules/task_list/screens/ingredient_selection.dart';
 import 'package:flutter/material.dart';
 
-enum SelectionsListAction { ADD, REMOVE }
+enum SelectionsListAction { ADD, REMOVE, REORDER }
 
 class EventType {
   final SelectionsListAction action;
   final int id;
-  EventType({this.id, @required this.action});
+  final Reorder reorder;
+  EventType({this.id, @required this.action, this.reorder});
+}
+
+class Reorder {
+  final int oldIndex;
+  final int newIndex;
+  Reorder({@required this.oldIndex, @required this.newIndex});
 }
 
 class SelectionsListBloc {
@@ -31,23 +38,39 @@ class SelectionsListBloc {
   Stream<EventType> get eventStream => _eventController.stream;
 
   SelectionsListBloc() {
-    eventStream.listen((event) {
-      if (event.action == SelectionsListAction.ADD) {
-        print('add');
-        _ingredientSelections.add(IngredientSelection(
-          delete: delete,
-          id: new Random().nextInt(100),
-          key: UniqueKey(),
-        ));
-        print(_ingredientSelections);
-      } else if (event.action == SelectionsListAction.REMOVE) {
-        _ingredientSelections = _ingredientSelections
-            .where((ingredient) => ingredient.id != event.id)
-            .toList();
-        print(_ingredientSelections);
-      }
-      stateSink.add(_ingredientSelections);
-    });
+    eventStream.listen(
+      (event) {
+        if (event.action == SelectionsListAction.ADD) {
+          print('add');
+          _ingredientSelections.add(
+            IngredientSelection(
+              delete: delete,
+              id: new Random().nextInt(100),
+              key: UniqueKey(),
+            ),
+          );
+        } else if (event.action == SelectionsListAction.REMOVE) {
+          _ingredientSelections = _ingredientSelections
+              .where((ingredient) => ingredient.id != event.id)
+              .toList();
+        } else if (event.action == SelectionsListAction.REORDER) {
+          reorderList(
+              list: _ingredientSelections,
+              oldIndex: event.reorder.oldIndex,
+              newIndex: event.reorder.newIndex);
+        }
+        stateSink.add(_ingredientSelections);
+      },
+    );
+  }
+
+  void reorderList({List list, int oldIndex, int newIndex}) {
+    if (newIndex > list.length) newIndex = list.length;
+    if (oldIndex < newIndex) newIndex--;
+
+    var temp = list[oldIndex];
+    list.remove(temp);
+    list.insert(newIndex, temp);
   }
 
   void delete(int id) {
