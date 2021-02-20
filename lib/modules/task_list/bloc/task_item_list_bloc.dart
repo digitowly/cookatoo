@@ -1,35 +1,18 @@
 import 'dart:async';
 
-import 'package:cookatoo/models/task_item.model.dart';
-import 'package:flutter/material.dart';
-
-enum TaskItemListAction { ADD }
-
-class EventType {
-  final TaskItemListAction action;
-
-  EventType({@required this.action});
-}
+import 'package:cookatoo/modules/task_list/bloc/task_item_list_event.dart';
+import 'package:cookatoo/modules/task_list/bloc/task_item_list_state.dart';
 
 class TaskItemListBloc {
-  List<TaskItem> _tasks = [];
-
-  // State
-  final _stateController = StreamController<List<TaskItem>>();
-  StreamSink<List<TaskItem>> get stateSink => _stateController.sink;
-  Stream<List<TaskItem>> get stateStream => _stateController.stream;
-
-  // Event
-  final _eventController = StreamController<EventType>();
-  StreamSink<EventType> get eventSink => _eventController.sink;
-  Stream<EventType> get eventStream => _eventController.stream;
+  final state = TaskItemListState();
+  final event = TaskItemListEvent();
 
   TaskItemListBloc() {
-    eventStream.listen((event) {
+    event.stream.listen((event) {
       if (event.action == TaskItemListAction.ADD) {
         print('new item');
       }
-      stateSink.add(_tasks);
+      state.sink.add(state.tasks);
     });
   }
 }
