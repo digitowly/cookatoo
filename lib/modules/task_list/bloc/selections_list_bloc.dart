@@ -41,7 +41,6 @@ class SelectionsListBloc {
     eventStream.listen(
       (event) {
         if (event.action == SelectionsListAction.ADD) {
-          print('add');
           _ingredientSelections.add(
             IngredientSelection(
               delete: delete,
