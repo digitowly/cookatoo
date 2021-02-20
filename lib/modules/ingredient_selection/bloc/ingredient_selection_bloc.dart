@@ -2,9 +2,8 @@ import 'package:cookatoo/modules/ingredient_selection/bloc/ingredient_selection_
 import 'package:cookatoo/modules/ingredient_selection/bloc/ingredient_selection_state.dart';
 
 class IngredientSelectionBloc {
-  IngredientSelectionState state = IngredientSelectionState();
-
-  IngredientSelectionEvent event = IngredientSelectionEvent();
+  final state = IngredientSelectionState();
+  final event = IngredientSelectionEvent();
 
   IngredientSelectionBloc() {
     event.stream.listen(
@@ -16,7 +15,6 @@ class IngredientSelectionBloc {
         } else if (event.action == IngredientSelectionAction.SUBSTRACT) {
           state.ingredientData["amount"]--;
         }
-
         state.sink.add(state.ingredientData);
       },
     );
