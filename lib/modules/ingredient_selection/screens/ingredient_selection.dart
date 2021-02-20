@@ -1,4 +1,5 @@
 import 'package:cookatoo/models/ingredient.model.dart';
+import 'package:cookatoo/models/ingredient_item.model.dart';
 import 'package:cookatoo/modules/ingredient_finder/screens/ingredient_finder.dart';
 import 'package:cookatoo/modules/ingredient_finder/screens/ingredient_preview.dart';
 import 'package:cookatoo/modules/ingredient_selection/bloc/ingredient_selection_bloc.dart';
@@ -13,6 +14,9 @@ class IngredientSelection extends StatelessWidget {
   final Function delete;
   final int id;
   final Key key;
+
+  int amount;
+  Ingredient type;
 
   IngredientSelection(
       {@required this.delete, @required this.id, @required this.key});
@@ -56,6 +60,10 @@ class IngredientSelection extends StatelessWidget {
         stream: _selectionItemBloc.state.stream,
         builder: (context, snapshot) {
           Map content = snapshot.data;
+          if (snapshot.hasData) {
+            amount = content['amount'];
+            type = content['type'];
+          }
           return StatefulWrapper(
             onInit: () => showIngredientsList(),
             child: Dismissible(

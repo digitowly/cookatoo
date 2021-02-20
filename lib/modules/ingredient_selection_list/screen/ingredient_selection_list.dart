@@ -1,3 +1,8 @@
+import 'package:cookatoo/data/TaskTypes.dart';
+import 'package:cookatoo/data/ingredients.data.dart';
+import 'package:cookatoo/models/ingredient.model.dart';
+import 'package:cookatoo/models/ingredient_item.model.dart';
+import 'package:cookatoo/models/task_item_model.dart';
 import 'package:cookatoo/modules/ingredient_selection/screens/ingredient_selection.dart';
 import 'package:cookatoo/modules/ingredient_selection_list/bloc/ingredient_selection_list_bloc.dart';
 import 'package:cookatoo/modules/ingredient_selection_list/bloc/ingredient_selection_list_event.dart';
@@ -5,6 +10,15 @@ import 'package:flutter/material.dart';
 
 class IngredientSelectionList extends StatelessWidget {
   final _ingredientSelectionsBloc = IngredientSelectionListBloc();
+  final Function addToTaskList;
+
+  IngredientSelectionList({@required this.addToTaskList});
+
+  IngredientItem selectionToItem(IngredientSelection ingredientSelection) {
+    return IngredientItem(
+        amount: ingredientSelection.amount,
+        ingredient: ingredientSelection.type);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +85,14 @@ class IngredientSelectionList extends StatelessWidget {
           FlatButton(
             child: Text('complete'),
             onPressed: () {
+              TaskItemModel taskItem = TaskItemModel(
+                title: 'Test Task',
+                task: taskTypes['cut'],
+                ingredientItems: [
+                  ...listData.map((selection) => selectionToItem(selection))
+                ],
+              );
+              addToTaskList(taskItem);
               listData.forEach((data) => data.dissolve());
               _ingredientSelectionsBloc.dissolve();
             },

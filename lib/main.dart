@@ -1,5 +1,7 @@
-import 'package:cookatoo/modules/task_list/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'modules/task_item_list/screens/task_item_list.dart';
+
 
 void main() {
   runApp(App());
@@ -8,6 +10,6 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: TasksScreen());
+    return MaterialApp(home: TaskItemList());
   }
 }

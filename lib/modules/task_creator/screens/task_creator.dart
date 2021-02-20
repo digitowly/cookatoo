@@ -1,8 +1,11 @@
 import 'package:cookatoo/modules/ingredient_selection_list/screen/ingredient_selection_list.dart';
-import 'package:cookatoo/modules/task_creator/screens/task_creator.dart';
 import 'package:flutter/material.dart';
 
 class TaskCreator extends StatelessWidget {
+  final Function addToTaskList;
+
+  TaskCreator({@required this.addToTaskList});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -19,7 +22,9 @@ class TaskCreator extends StatelessWidget {
               builder: (BuildContext context) {
                 return Wrap(
                   children: [
-                    IngredientSelectionList(),
+                    IngredientSelectionList(
+                      addToTaskList: addToTaskList,
+                    ),
                   ],
                 );
               },
