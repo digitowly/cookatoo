@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:cookatoo/modules/ingredient_selection/screens/ingredient_selection.dart';

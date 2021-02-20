@@ -1,4 +1,4 @@
-import 'package:cookatoo/modules/task_list/screens/task_creator_button.dart';
+import 'package:cookatoo/modules/task_creator/screens/task_creator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,7 +12,7 @@ class TasksScreen extends StatelessWidget {
           Text('Tasks'),
         ],
       ),
-      floatingActionButton: TaskCreatorButton(),
+      floatingActionButton: TaskCreator(),
     );
   }
 }
