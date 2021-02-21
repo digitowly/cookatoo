@@ -13,32 +13,35 @@ class TaskItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          Text('Tasks'),
-          StreamBuilder(
-            stream: _taskItemListBloc.state.stream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<TaskItemModel> taskList = snapshot.data;
-                return Container(
-                  height: 600,
-                  child: ListView(
-                    children: [
-                      ...taskList.map(
-                        (task) => TaskItem(
-                          taskItem: task,
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              } else {
-                return Text('no tasks');
-              }
-            },
-          )
-        ],
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Text('Tasks'),
+            StreamBuilder(
+              stream: _taskItemListBloc.state.stream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<TaskItemModel> taskList = snapshot.data;
+                  return Container(
+                    height: 600,
+                    child: ListView(
+                      children: [
+                        ...taskList.map(
+                          (task) => TaskItem(
+                            taskItem: task,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  return Text('no tasks');
+                }
+              },
+            )
+          ],
+        ),
       ),
       floatingActionButton: TaskCreator(
         addToTaskList: (TaskItemModel taskItem) => _taskItemListBloc.event.sink
