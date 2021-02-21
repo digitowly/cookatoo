@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cookatoo/modules/ingredient_selection/screens/ingredient_selection.dart';
 import 'package:cookatoo/modules/ingredient_selection_list/bloc/ingredient_selection_list_event.dart';
 import 'package:cookatoo/modules/ingredient_selection_list/bloc/ingredient_selection_list_state.dart';
+import 'package:cookatoo/util/mixins/reorder_list_mixin.dart';
 import 'package:flutter/material.dart';
 
 class IngredientSelectionListBloc {
@@ -25,7 +26,8 @@ class IngredientSelectionListBloc {
               .where((ingredient) => ingredient.id != event.id)
               .toList();
         } else if (event.action == IngredientSelectionListAction.REORDER) {
-          reorderList(
+          final reorderListMixin = ReorderListMixin();
+          reorderListMixin.reorder(
               list: state.ingredientSelections,
               oldIndex: event.reorder.oldIndex,
               newIndex: event.reorder.newIndex);
@@ -33,15 +35,6 @@ class IngredientSelectionListBloc {
         state.sink.add(state.ingredientSelections);
       },
     );
-  }
-
-  void reorderList({List list, int oldIndex, int newIndex}) {
-    if (newIndex > list.length) newIndex = list.length;
-    if (oldIndex < newIndex) newIndex--;
-
-    var temp = list[oldIndex];
-    list.remove(temp);
-    list.insert(newIndex, temp);
   }
 
   void delete(int id) {
