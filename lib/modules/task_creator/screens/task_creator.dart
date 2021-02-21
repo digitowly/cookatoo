@@ -23,8 +23,8 @@ class TaskCreator extends StatelessWidget {
                 return Wrap(
                   children: [
                     IngredientSelectionList(
-                      addToTaskList: addToTaskList,
-                    ),
+                        addToTaskList: addToTaskList,
+                        dismissModal: () => Navigator.pop(context)),
                   ],
                 );
               },
