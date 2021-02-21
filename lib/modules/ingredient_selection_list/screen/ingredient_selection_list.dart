@@ -21,15 +21,17 @@ class IngredientSelectionList extends StatelessWidget {
   }
 
   void complete(List<IngredientSelection> listData) {
-    final taskItem = TaskItemModel(
-      title: 'Test Task',
-      task: taskTypes['cut'],
-      ingredientItems: [
-        ...listData.map((selection) => selectionToItem(selection))
-      ],
-    );
-    addToTaskList(taskItem);
-    listData.forEach((data) => data.dissolve());
+    if (listData != null) {
+      final taskItem = TaskItemModel(
+        title: 'Test Task',
+        task: taskTypes['cut'],
+        ingredientItems: [
+          ...listData.map((selection) => selectionToItem(selection))
+        ],
+      );
+      addToTaskList(taskItem);
+      listData.forEach((data) => data.dissolve());
+    }
     _ingredientSelectionsBloc.dissolve();
     dismissModal();
   }
