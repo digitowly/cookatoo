@@ -27,7 +27,10 @@ class TaskItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
-        children: [...ingredients],
+        children: [
+          Text(taskItem.title),
+          ...ingredients,
+        ],
       ),
     );
   }

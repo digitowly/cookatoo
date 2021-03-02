@@ -1,4 +1,4 @@
-import 'package:cookatoo/modules/ingredient_selection_list/screen/ingredient_selection_list.dart';
+import 'package:cookatoo/modules/ingredient_selection_list/screen/ingredient_selection_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class TaskCreator extends StatelessWidget {
@@ -22,7 +22,7 @@ class TaskCreator extends StatelessWidget {
               builder: (BuildContext context) {
                 return Wrap(
                   children: [
-                    IngredientSelectionList(
+                    IngredientSelectionListScreen(
                         addToTaskList: addToTaskList,
                         dismissModal: () => Navigator.pop(context)),
                   ],

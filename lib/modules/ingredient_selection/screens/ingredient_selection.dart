@@ -46,12 +46,12 @@ class IngredientSelection extends StatelessWidget {
         );
 
     return Container(
-      padding: EdgeInsets.all(0),
-      margin: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(0),
+      margin: const EdgeInsets.only(bottom: 10),
       height: 90,
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
       ),

@@ -14,7 +14,7 @@ class IngredientSelectionListBloc {
     event.stream.listen(
       (event) {
         if (event.action == IngredientSelectionListAction.ADD) {
-          state.ingredientSelections.add(
+          state.ingredientSelectionList.ingredientSelections.add(
             IngredientSelection(
               delete: delete,
               id: new Random().nextInt(100),
@@ -22,17 +22,20 @@ class IngredientSelectionListBloc {
             ),
           );
         } else if (event.action == IngredientSelectionListAction.REMOVE) {
-          state.ingredientSelections = state.ingredientSelections
+          state.ingredientSelectionList.ingredientSelections = state
+              .ingredientSelectionList.ingredientSelections
               .where((ingredient) => ingredient.id != event.id)
               .toList();
         } else if (event.action == IngredientSelectionListAction.REORDER) {
           final reorderListMixin = ReorderListMixin();
           reorderListMixin.reorder(
-              list: state.ingredientSelections,
+              list: state.ingredientSelectionList.ingredientSelections,
               oldIndex: event.reorder.oldIndex,
               newIndex: event.reorder.newIndex);
+        } else if (event.action == IngredientSelectionListAction.RENAME) {
+          state.ingredientSelectionList.title = event.rename;
         }
-        state.sink.add(state.ingredientSelections);
+        state.sink.add(state.ingredientSelectionList);
       },
     );
   }

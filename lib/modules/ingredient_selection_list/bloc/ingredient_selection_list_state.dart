@@ -1,15 +1,17 @@
 import 'dart:async';
 
-import 'package:cookatoo/modules/ingredient_selection/screens/ingredient_selection.dart';
+import 'package:cookatoo/modules/ingredient_selection_list/models/ingredient_selection_list_model.dart';
 
 class IngredientSelectionListState {
-  List<IngredientSelection> ingredientSelections = [];
+  // List<IngredientSelection> ingredientSelections = [];
+  IngredientSelectionList ingredientSelectionList =
+      IngredientSelectionList(title: 'TestTitle', ingredientSelections: []);
 
   final _stateController =
-      StreamController<List<IngredientSelection>>.broadcast();
+      StreamController<IngredientSelectionList>.broadcast();
 
-  StreamSink<List<IngredientSelection>> get sink => _stateController.sink;
-  Stream<List<IngredientSelection>> get stream => _stateController.stream;
+  StreamSink<IngredientSelectionList> get sink => _stateController.sink;
+  Stream<IngredientSelectionList> get stream => _stateController.stream;
 
   void dissolve() => _stateController.close();
 }

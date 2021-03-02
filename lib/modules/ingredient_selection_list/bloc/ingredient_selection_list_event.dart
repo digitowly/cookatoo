@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-enum IngredientSelectionListAction { ADD, REMOVE, REORDER }
+enum IngredientSelectionListAction { ADD, REMOVE, REORDER, RENAME }
 
 class Reorder {
   final int oldIndex;
@@ -14,7 +14,8 @@ class EventType {
   final IngredientSelectionListAction action;
   final int id;
   final Reorder reorder;
-  EventType({this.id, @required this.action, this.reorder});
+  final String rename;
+  EventType({this.id, @required this.action, this.reorder, this.rename});
 }
 
 class IngredientSelectionListEvent {
